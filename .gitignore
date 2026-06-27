@@ -1,4 +1,4 @@
-node-modules
 .next
 .env.local
 coverage
+node_modules
