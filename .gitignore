@@ -1,0 +1,4 @@
+node-modules
+.next
+.env.local
+coverage
