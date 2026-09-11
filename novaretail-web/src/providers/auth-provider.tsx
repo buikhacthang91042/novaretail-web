@@ -16,8 +16,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
     try {
       const result = await login({ username, password });
-      setUser(result.user);
       setStoredAccessToken(result.accessToken);
+      const currentUser = await getMe();
+      setUser(currentUser);
     } catch (error) {
       console.error("Login failed:", error);
       throw error;

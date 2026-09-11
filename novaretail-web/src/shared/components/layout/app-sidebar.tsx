@@ -1,19 +1,16 @@
 "use client";
+import { useAuth } from "@/src/providers/auth-provider";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { NAVIGATION_ITEMS } from "../../constants/navigation";
 
-const MENU_ITEMS = [
-  { label: "Dashboard", href: "/" },
-  { label: "Sales", href: "/sales" },
-  { label: "Inventory", href: "/inventory" },
-  { label: "Products", href: "/products" },
-  { label: "Employees", href: "/employees" },
-  { label: "Promotions", href: "/promotions" },
-];
 export default function AppSidebar() {
   const pathname = usePathname();
-
+  const { user } = useAuth();
+  const visibleMenuItems = NAVIGATION_ITEMS.filter((item) =>
+    user?.permissions.includes(item.permission),
+  );
   return (
     <div className="flex border-r border-gray-300 min-w-[300px]">
       <div className="flex flex-col w-full">
@@ -34,7 +31,7 @@ export default function AppSidebar() {
         </div>
         {/* Menu Items */}
         <div className="flex flex-1 flex-col items-start gap-2 p-3">
-          {MENU_ITEMS.map((item) => {
+          {visibleMenuItems.map((item) => {
             const isActive =
               pathname === item.href ||
               (item.href !== "/" && pathname.startsWith(`${item.href}/`));

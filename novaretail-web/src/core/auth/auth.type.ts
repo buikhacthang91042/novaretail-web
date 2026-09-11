@@ -3,6 +3,8 @@ export interface AuthUser {
   username: string;
   email: string;
   status: string;
+  roles: string[];
+  permissions: string[];
 }
 
 export interface LoginResponse {
@@ -23,12 +25,7 @@ export interface LogoutResponse {
   message: string;
 }
 
-export interface GetMeResponse {
-  id: string;
-  username: string;
-  email: string;
-  status: string;
-}
+export type GetMeResponse = AuthUser;
 
 export interface AuthContextValue {
   user: AuthUser | null;
