@@ -42,7 +42,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { accessToken } = refreshTokenResult;
         if (!accessToken) {
           setUser(null);
-          setAccessToken(null);
           clearStoredAccessToken();
           return;
         }

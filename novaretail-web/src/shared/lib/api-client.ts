@@ -7,6 +7,7 @@ import {
   setAccessToken,
 } from "@/src/core/auth/token-store";
 import { skipRefreshEndpoints } from "../constants/app";
+import { RefreshResponse } from "@/src/core/auth/auth.type";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 let refreshPromise: Promise<string | null> | null = null;
@@ -54,7 +55,7 @@ async function refreshAccessToken(): Promise<string | null> {
         clearAccessToken();
         return null;
       }
-      const data = await response.json();
+      const data: RefreshResponse = await response.json();
       if (!data?.accessToken || typeof data.accessToken !== "string") {
         clearAccessToken();
         return null;

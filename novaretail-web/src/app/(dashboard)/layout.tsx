@@ -1,6 +1,8 @@
 "use client";
 
 import { useAuth } from "@/src/providers/auth-provider";
+import AppHeader from "@/src/shared/components/layout/app-header";
+import AppSidebar from "@/src/shared/components/layout/app-sidebar";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -23,5 +25,15 @@ export default function DashboardLayout({
 
   //Cái này để tránh dashboard có thể bị flash khi mà useEffect chuẩn bị redirect
   if (!user) return null;
-  return <>{children}</>;
+  return (
+    <>
+      <div className="flex min-h-screen">
+        <AppSidebar />
+        <div className="flex min-w-0 flex-col flex-1">
+          <AppHeader />
+          <main className="flex-1">{children}</main>
+        </div>
+      </div>
+    </>
+  );
 }
