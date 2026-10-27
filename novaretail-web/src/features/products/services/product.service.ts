@@ -2,7 +2,8 @@ import { apiClient } from "@/src/shared/lib/api-client";
 import { GetProductQuery, GetProductResponse } from "../types/product.types";
 
 export async function getProductList(
-  query: GetProductQuery
+  query: GetProductQuery,
+  signal?: AbortSignal,
 ): Promise<GetProductResponse> {
   const params = new URLSearchParams();
   Object.entries(query).forEach(([key, value]) => {
@@ -12,6 +13,7 @@ export async function getProductList(
   });
   const response = await apiClient(`/api/v1/products?${params.toString()}`, {
     method: "GET",
+    signal,
   });
   if (!response.ok) {
     throw new Error(`Get Product List Failed (${response.status}) !`);

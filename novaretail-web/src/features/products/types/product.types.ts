@@ -35,11 +35,22 @@ export type GetProductResponse = {
   };
 };
 
+export type ProductListItem = {
+  id: string;
+  code: string;
+  name: string;
+  status: "ACTIVE" | "INACTIVE" | "ARCHIVED";
+  createdAt: string;
+  brand: ProductBrand;
+  category: ProductCategory;
+  variantCount: number;
+  primaryImage: ProductPrimaryImage | null;
+};
 export type GetProductQuery = {
   page?: number;
   pageSize?: number;
   search?: string;
   brandId?: string;
   categoryId?: string;
-  status?: "ACTIVE" | "INACTIVE" | "ARCHIVED";
+  status?: "" | "ACTIVE" | "INACTIVE" | "ARCHIVED";
 };
