@@ -54,3 +54,26 @@ export type GetProductQuery = {
   categoryId?: string;
   status?: "" | "ACTIVE" | "INACTIVE" | "ARCHIVED";
 };
+
+export type CreateProductPayload = {
+  code: string;
+  name: string;
+  brandId: string;
+  categoryId: string;
+  description?: string;
+};
+
+export type CreateProductResponse = {
+  data: {
+    id: string;
+    brandId: string;
+    categoryId: string;
+    name: string;
+    code: string;
+    description: string | null;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+  };
+};
