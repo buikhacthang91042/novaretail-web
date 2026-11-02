@@ -1,17 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { GetProductDetailResponse } from "../../types/product.detail.type";
 import { BadgeStatus, Status } from "@/src/shared/utils/badge-status";
 import { formatDateTime } from "@/src/shared/utils/date.utils";
 import { useParams, useRouter } from "next/navigation";
+import { deleteProductDetail } from "../../services/product-detail.service";
 
 type Props = {
   detail: GetProductDetailResponse;
 };
 
 function DetailGeneralInformation({ detail }: Props) {
+  const [notification, setNotification] = useState("");
+  const [isDeleting, setIsDeleting] = useState(true);
   const router = useRouter();
   const param = useParams<{ id: string }>();
   const id = param.id;
+  const handleDeleteProduct = async () => {
+    const isConfirmed = window.confirm("Are you sure to delete ?");
+    if (isConfirmed) {
+      setIsDeleting(true);
+      setNotification("");
+      try {
+        const response = await deleteProductDetail(id);
+        setNotification(response.message);
+        router.push("/products");
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") return null;
+        if (error instanceof Error) {
+          setNotification(error.message);
+        } else {
+          setNotification("Can not delete product");
+        }
+      } finally {
+        setIsDeleting(false);
+      }
+    }
+  };
   return (
     <div className="flex flex-col gap-10">
       <div className="flex justify-between items-center border-b border-gray-300 py-2">
@@ -38,12 +62,22 @@ function DetailGeneralInformation({ detail }: Props) {
           value={formatDateTime(detail.data.updatedAt)}
         />
       </div>
-      <div className="flex justify-end border-t py-4  border-gray-300">
+      <div className="flex justify-end border-t py-4 gap-2 border-gray-300">
+        {notification && <span className="text-red-500">{notification}</span>}
         <button
+          type="button"
           onClick={() => router.push(`/products/${id}/edit`)}
           className="border border-gray-400 p-2 rounded-lg hover:bg-gray-100 cursor-pointer font-bold "
         >
           Edit product
+        </button>
+        <button
+          type="button"
+          onClick={() => handleDeleteProduct()}
+          disabled={isDeleting}
+          className="border border-red-400 bg-red-500 p-2 rounded-lg hover:bg-red-100 font-semibold cursor-pointer text-white"
+        >
+          {isDeleting ? "Deleting..." : "Delete Product"}
         </button>
       </div>
     </div>

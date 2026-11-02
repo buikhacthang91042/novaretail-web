@@ -1,5 +1,6 @@
 import { apiClient } from "@/src/shared/lib/api-client";
 import {
+  DeleteProductDetailResponse,
   GetProductDetailResponse,
   UpdateProductDetailRequest,
   UpdateProductDetailResponse,
@@ -40,6 +41,24 @@ export async function updateProductDetail(
     const errorData = await response.json().catch(() => null);
     const message =
       errorData.message ?? `Update Product Detail Fail (${response.status})`;
+    throw new Error(Array.isArray(message) ? message.join(", ") : message);
+  }
+  const json = await response.json();
+  return json;
+}
+
+export async function deleteProductDetail(
+  id: string,
+  signal?: AbortSignal,
+): Promise<DeleteProductDetailResponse> {
+  const response = await apiClient(`/api/v1/products/${id}`, {
+    method: "DELETE",
+    signal,
+  });
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    const message =
+      errorData.message ?? `Delete Product Detail Fail (${response.status})`;
     throw new Error(Array.isArray(message) ? message.join(", ") : message);
   }
   const json = await response.json();

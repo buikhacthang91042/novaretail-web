@@ -40,3 +40,6 @@ export type UpdateProductDetailResponse = {
     deletedAt: string | null;
   };
 };
+export type DeleteProductDetailResponse = {
+  message: string;
+};
