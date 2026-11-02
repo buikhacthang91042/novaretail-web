@@ -1,13 +1,13 @@
 import React from "react";
 import { ProductListItem } from "../types/product.types";
 import { BadgeStatus } from "@/src/shared/utils/badge-status";
-import { BrandItem } from "../../brands/types/brand.types";
-import { CategoryItem } from "../../categories/types/categories.type";
+import { useRouter } from "next/navigation";
 
 type Props = {
   productsList: ProductListItem[];
 };
 function ProductTable({ productsList }: Props) {
+  const router = useRouter();
   return (
     <div className="w-full border border-gray-300 overflow-hidden rounded-lg">
       <table className="w-full border-collapse">
@@ -25,7 +25,8 @@ function ProductTable({ productsList }: Props) {
           {productsList.map((product) => (
             <tr
               key={product.id}
-              className="hover:bg-gray-50 border-b border-gray-300 last:border-0"
+              onClick={() => router.push(`/products/${product.id}`)}
+              className="hover:bg-gray-50 border-b border-gray-300 last:border-0 cursor-pointer "
             >
               <td className="px-3 py-4 ">{product.name}</td>
               <td className="px-3 py-4 ">{product.code}</td>

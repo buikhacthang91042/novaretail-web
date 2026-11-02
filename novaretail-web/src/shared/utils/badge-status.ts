@@ -1,4 +1,4 @@
-type Status = "ACTIVE" | "INACTIVE" | "ARCHIVED";
+export type Status = "ACTIVE" | "INACTIVE" | "ARCHIVED";
 
 export function BadgeStatus(status: Status) {
   const statusClasses: Record<Status, string> = {
